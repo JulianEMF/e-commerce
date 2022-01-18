@@ -1,0 +1,31 @@
+{
+  "name": "proshop",
+  "version": "1.0.0",
+  "description": "MERN shopping cart app",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulianEMF/e-commerce.git"
+  },
+  "author": "Julian Montoya Franco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JulianEMF/e-commerce/issues"
+  },
+  "homepage": "https://github.com/JulianEMF/e-commerce#readme",
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "dotenv": "^14.1.0",
+    "express": "^4.17.2"
+  }
+}
