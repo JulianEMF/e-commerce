@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
+import LoginScreen from './screens/LoginScreen';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
               <Routes>
                 {/* The exact keyword ensures that the browser is routed when the url is exactly "/" and not "/" plus other values */}
                 <Route path='/' element={<HomeScreen/>} />
+                <Route path='/login' element={<LoginScreen/>} />
                 <Route path='/product/:id' element={<ProductScreen/>}/>
                 <Route path='/cart/:id' element={<CartScreen/>}/>
                 <Route path='/cart/' element={<CartScreen/>}/>
