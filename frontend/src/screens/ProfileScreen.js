@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col, Table } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { useNavigate } from 'react-router';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
-
+import { listMyOrders } from '../actions/orderActions';
 
 const ProfileScreen = ({ history }) => {
     const [name, setName] = useState('');
@@ -26,8 +27,11 @@ const ProfileScreen = ({ history }) => {
     const userUpdateProfile = useSelector(state => state.userUpdateProfile);
     const { success } = userUpdateProfile;
 
-    const [searchParams] = useSearchParams();
-    const redirect = [...searchParams].length > 0 ? [...searchParams][0][1] : "/";
+    const orderListMy = useSelector((state) => state.orderListMy);
+    const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
+
+    // const [searchParams] = useSearchParams();
+    // const redirect = [...searchParams].length > 0 ? [...searchParams][0][1] : "/";
 
     const navigate = useNavigate();
 
@@ -37,12 +41,13 @@ const ProfileScreen = ({ history }) => {
         }else{
             if(!user.name){
                 dispatch(getUserDetails('profile'));
+                dispatch(listMyOrders());
             }else{
                 setName(user.name);
                 setEmail(user.email);
             }
         }
-    }, [dispatch, history, userInfo, user])
+    }, [dispatch, userInfo, user, success])
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -89,6 +94,40 @@ const ProfileScreen = ({ history }) => {
         </Col>
         <Col md={9}>
             <h2>My Orders</h2>
+            {loadingOrders ? <Loader /> : errorOrders ? (<Message variant="danger">{errorOrders}</Message>) : (
+                <Table striped bordered hover responsive className='table-sm'>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>DATE</th>
+                            <th>TOTAL</th>
+                            <th>PAID</th>
+                            <th>DELIVERED</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {orders.map((order) => (
+                            <tr key={order._id}>
+                                <td>{order._id}</td>
+                                <td>{order.createdAt.substring(0, 10)}</td>
+                                <td>{order.totalPrice}</td>
+                                <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
+                                    <i className='fas fa-times' style={{ color: 'red' }} />
+                                )}</td>
+                                <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : (
+                                    <i className='fas fa-times' style={{ color: 'red' }} />
+                                )}</td>
+                                <td>
+                                    <LinkContainer to={`/order/${order._id}`}>
+                                        <Button className='btn-sm' variant='light'>Details</Button>                                    
+                                    </LinkContainer>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            )}
         </Col>
     </Row>
   )

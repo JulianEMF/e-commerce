@@ -12,6 +12,9 @@ import ProfileScreen from './screens/ProfileScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
+import UserListScreen from './screens/UserListScreen';
+import UserEditScreen from './screens/UserEditScreen';
 
 function App() {
   return (
@@ -21,16 +24,19 @@ function App() {
             <Container>
               <Routes>
                 {/* The exact keyword ensures that the browser is routed when the url is exactly "/" and not "/" plus other values */}
-                <Route path='/' element={<HomeScreen/>}/>
+                <Route path='/order/:id' element={<OrderScreen/>}/>
+                <Route path='/shipping' element={<ShippingScreen/>}/>
+                <Route path='/payment' element={<PaymentScreen/>}/>
+                <Route path='/placeorder' element={<PlaceOrderScreen/>}/>
                 <Route path='/login' element={<LoginScreen/>} />
                 <Route path='/register' element={<RegisterScreen/>} />
                 <Route path='/profile' element={<ProfileScreen/>} />
                 <Route path='/product/:id' element={<ProductScreen/>}/>
                 <Route path='/cart/:id' element={<CartScreen/>}/>
+                <Route path='/admin/userlist' element={<UserListScreen/>}/>
+                <Route path='/admin/user/:id/edit' element={<UserEditScreen/>}/>
                 <Route path='/cart/' element={<CartScreen/>}/>
-                <Route path='/shipping' element={<ShippingScreen/>}/>
-                <Route path='/payment' element={<PaymentScreen/>}/>
-                <Route path='/placeorder' element={<PlaceOrderScreen/>}/>
+                <Route path='/' element={<HomeScreen/>}/>
               </Routes>
             </Container>
           </main>
