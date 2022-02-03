@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 import { useNavigate } from 'react-router';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 const ProfileScreen = ({ history }) => {
     const [name, setName] = useState('');
@@ -39,7 +40,8 @@ const ProfileScreen = ({ history }) => {
         if(!userInfo){
             navigate('/login');
         }else{
-            if(!user.name){
+            if(!user.name || !user.name || success){
+                dispatch({ type: USER_UPDATE_PROFILE_RESET });
                 dispatch(getUserDetails('profile'));
                 dispatch(listMyOrders());
             }else{
@@ -47,7 +49,7 @@ const ProfileScreen = ({ history }) => {
                 setEmail(user.email);
             }
         }
-    }, [dispatch, userInfo, user, success])
+    }, [dispatch, userInfo, user, success, navigate])
 
     const submitHandler = (e) => {
         e.preventDefault();
